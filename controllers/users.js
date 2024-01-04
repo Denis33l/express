@@ -44,7 +44,7 @@ const register = async (req, res, next) => {
         });
 
         if (registeredUser) {
-            return res.status(400).json({ message: 'Пользователь, с таким email уже существует' })
+            return res.status(400).json({ message: 'Пользователь, с таким login уже существует' })
           }
 
 
