@@ -5,6 +5,9 @@ import { CustomButton } from '../../components/custom-button'
 import { LeftOutlined } from '@ant-design/icons'
 import { ReactComponent as User } from '../../assets/header/big-user.svg'
 import { EditProfile } from '../../components/personal-data'
+// Не успел придумать, как мне реализовать переход на страницу и еще парочку моментов
+// На эту страницу можено перейти так  http://localhost:3000/profile/0348c91b-7779-4799-b588-6220a9cede68
+// Можно также вытянуть и любой айди через postman или используя npx prisma studio 
 
 export const Profile = () => {
   return (

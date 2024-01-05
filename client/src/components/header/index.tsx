@@ -7,7 +7,7 @@ import { ReactComponent as ArrowDown } from '../../assets/header/arrow-down.svg'
 import { ReactComponent as User } from '../../assets/header/user.svg';
 import { ReactComponent as Circle } from '../../assets/header/circle-user.svg';
 import { CustomButton } from '../custom-button';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Paths } from '../../paths';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, selectUser } from '../../features/auth/authSlice';
@@ -17,6 +17,12 @@ export const Header: React.FC = () => {
     const user = useSelector(selectUser);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const params = useParams<{ id: string }>();
+    const { data, isLoading } = useGetProfileQuery(params.id || "");
+
+    if (isLoading) {
+        return <span>Загрузка...</span>
+    }
 
     const onLogoutClick = () => {
         dispatch(logout());
@@ -24,12 +30,12 @@ export const Header: React.FC = () => {
         navigate('/login')
     }
 
-    const { data: userProfile } = useGetProfileQuery(user?.id || '');
+    // const { data: userProfile } = useGetProfileQuery(user?.id || '');
 
     const onProfileClick = () => {
-        if (userProfile) {
-            console.log("Navigating to:", `${Paths.profile}/${userProfile.id}`);
-            navigate(`${Paths.profile}/${userProfile.id}`);
+        if (data) {
+            console.log(`${Paths.profile}/${data.id}`);
+            navigate(`${Paths.profile}/${data.id}`);
         }
     }
 
@@ -59,7 +65,7 @@ export const Header: React.FC = () => {
                     user ? (
                         <Space style={{ display: 'flex' }}>
                             <CustomButton type='ghost' onClick={onProfileClick} icon={<Circle />} style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'rgba(110, 118, 134, 1)', fontFamily: 'Inter', fontWeight: '500', fontSize: '16px', padding: '0' }}>
-                                {userProfile ? `${userProfile.name} ${userProfile.surname}` : 'Имя Фамилия'}
+                                {data ? `${data.name} ${data.surname}` : 'Имя Фамилия'}
                             </CustomButton>
                             <CustomButton type='ghost' onClick={onLogoutClick} style={{ padding: '0' }}><ArrowDown /></CustomButton>
                         </Space>

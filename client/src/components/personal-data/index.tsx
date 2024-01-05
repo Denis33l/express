@@ -13,7 +13,7 @@ export const EditProfile = () => {
   const [editProfile] = useEditProfileMutation();
 
   if (isLoading) {
-    return <span>Загрузка</span>
+    return <span>Загрузка...</span>
   }
 
   const handleEditUser = async (profile: UserProfile) => {
